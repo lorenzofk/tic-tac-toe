@@ -1,31 +1,75 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <div id="app" v-cloak>
+    <div id="details">
+      <h1>Tic Tac Toe</h1>
+      <h2>Match #{{ matches + 1 }}</h2>
     </div>
-    <router-view/>
+    <Board></Board>
+    <button class="restart" @click="restart">Restart</button>
   </div>
 </template>
 
+<script>
+
+import Board from '@/components/Board.vue';
+
+export default {
+  name: 'game',
+  components: { Board },
+  data() {
+    return {
+      matches: 0,
+      results: {
+        O: 0,
+        X: 0
+      }
+    }
+  },
+  methods: {
+    restart () {
+      Event.$emit('clearCell');
+      Event.$emit('resetBoard');
+      this.matches++;
+    }
+  }
+}
+</script>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+body {
+  background-color: #fff;
+  color: #fff;
+  font-family: 'Dosis', Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  margin: 0px;
 }
-#nav {
-  padding: 30px;
+#app {
+  margin: 0 auto;
+  max-width: 600px;
+  color: #34495e;
 }
-
-#nav a {
+h1 {
+  text-transform: uppercase;
   font-weight: bold;
-  color: #2c3e50;
+  font-size: 2em;
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.restart {
+  background-color: #ce7121;
+  color: #fff;
+  border: 0px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  font-family: 'Dosis', Helvetica, sans-serif;
+  font-size: 1.4em;
+  font-weight: bold;
+  margin: 0px;
+  padding: 15px;
+  width: 100%;
+}
+.restart:hover {
+  background-color: #b5590a;
+  cursor: pointer;
 }
 </style>
