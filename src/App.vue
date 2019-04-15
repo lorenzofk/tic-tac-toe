@@ -1,11 +1,17 @@
 <template>
-  <div id="app" v-cloak>
-    <div id="details">
-      <h1>Tic Tac Toe</h1>
-      <h2>Match #{{ numberOfMatches }}</h2>
+  <div>
+    <div class="scoreBoard">
+      <span>You have {{ results.O }} wins</span>
+      <h2>Score</h2>
+      <span>Machine has {{ results.X }} wins</span>
     </div>
-    <Board></Board>
-    <button class="restart" @click="restart">Restart</button>
+    <div id="app" v-cloak>
+      <div id="details">
+        <h2>MATCH #{{ numberOfMatches }}</h2>
+      </div>
+      <Board></Board>
+      <button class="restart" @click="restart">Restart</button>
+    </div>
   </div>
 </template>
 
@@ -24,6 +30,10 @@ export default {
         X: 0
       }
     }
+  },
+  created() {
+    // Listener to set the score for the winner
+    Event.$on('winner', (winner) => this.results[winner]++);
   },
   computed: {
     numberOfMatches() {
@@ -76,5 +86,26 @@ h1 {
 .restart:hover {
   background-color: #b5590a;
   cursor: pointer;
+}
+.scoreBoard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 15px;
+  background-color: #3684d2;
+  box-shadow: 10px solid #fff;
+  padding: 20px 0px 20px 0px;
+  overflow-x: none;
+}
+.scoreBoard h2 {
+  margin: 0px;
+}
+.scoreBoard span {
+  float: right;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-left: 20px;
 }
 </style>
