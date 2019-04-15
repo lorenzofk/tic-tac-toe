@@ -61,15 +61,15 @@ export default {
     }
   },
   created () {
-    // listener to get every move in the current game
-    Event.$on('hit', (cellNumber) => {
+    // Listener to get every move in the current game
+    Event.$on('mark', (cellNumber) => {
       this.cells[cellNumber] = this.currentPlayer;
       this.moves++;
       this.gameStatus = this.changeGameStatus();
       this.changePlayer();
     });
 
-    // listener to reset the board when the game restarts
+    // Listener to reset the board when the game restarts
     Event.$on('resetBoard', () => {  
       Object.assign(this.$data, this.$options.data())
     });
@@ -107,9 +107,9 @@ export default {
     changeGameStatus() {
 
       if (this.hasWinner()) {
-          return this.isHuman
-            ? 'win' 
-            : 'lost';
+          Event.$emit('win', this.currentPlayer);
+          Event.$emit('finish');
+          return this.isHuman ? 'win' : 'lost';
       } else if (this.moves === 9) {
           return 'draw';
       }
