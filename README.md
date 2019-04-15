@@ -1,4 +1,8 @@
-# tic-tac-toe
+# Tic tac toe
+
+It's a simple tic-tac-toe game developed using VueJS 3.
+
+My next job will be develop a simple AI agent using the Minimax algorithm to play with us :)
 
 ## Project setup
 ```
