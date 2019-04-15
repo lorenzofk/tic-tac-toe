@@ -60,7 +60,7 @@ export default {
       ],
     }
   },
-  created () {
+  created() {
     // Listener to get every move in the current game
     Event.$on('mark', (cellNumber) => {
       this.cells[cellNumber] = this.currentPlayer;
@@ -76,28 +76,31 @@ export default {
   },
   computed: {
     nextPlayer() {
-      return this.isHuman 
-        ? 'X' 
-        : 'O';
+      return this.playerIsHuman ? 'X' : 'O';
     },
-    isHuman() {
+    playerIsHuman() {
       return this.currentPlayer === 'O';
     }
   },
   watch: {
     gameStatus() {
-      if (this.gameStatus === 'win') {
-        this.gameStatusMessage = 'You win :)'.toUpperCase();
-        this.gameStatusClass = 'statusWin';
-      } else if (this.gameStatus === 'lost') {
-        this.gameStatusMessage = 'You lost :/'.toUpperCase();
-        this.gameStatusClass = 'statusLost';
-      } else if (this.gameStatus === 'draw') {
-        this.gameStatusMessage = 'Draw :|'.toUpperCase();
-        this.gameStatusClass = 'statusDraw';
-      } else {
-        this.gameStatusMessage = this.gameStatus + '\'s turn';
+      switch (this.gameStatus) {
+        case 'win':
+          this.gameStatusMessage = 'You win :)'.toUpperCase();
+          this.gameStatusClass = 'statusWin';
+          break;
+        case 'lost':
+          this.gameStatusMessage = 'You lost :/'.toUpperCase();
+          this.gameStatusClass = 'statusLost';
+          break;
+        case 'draw':
+          this.gameStatusMessage = 'Draw :|'.toUpperCase();
+          this.gameStatusClass = 'statusDraw';
+          break;
+        default:
+          this.gameStatusMessage = this.gameStatus + '\'s turn';
       }
+
     },
   },
   methods: {
@@ -105,11 +108,10 @@ export default {
       this.currentPlayer = this.nextPlayer;
     },
     changeGameStatus() {
-
       if (this.hasWinner()) {
-          Event.$emit('win', this.currentPlayer);
+          Event.$emit('winner', this.currentPlayer);
           Event.$emit('finish');
-          return this.isHuman ? 'win' : 'lost';
+          return this.playerIsHuman ? 'win' : 'lost';
       } else if (this.moves === 9) {
           return 'draw';
       }
