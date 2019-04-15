@@ -2,7 +2,7 @@
   <div id="app" v-cloak>
     <div id="details">
       <h1>Tic Tac Toe</h1>
-      <h2>Match #{{ matches + 1 }}</h2>
+      <h2>Match #{{ numberOfMatches }}</h2>
     </div>
     <Board></Board>
     <button class="restart" @click="restart">Restart</button>
@@ -23,6 +23,11 @@ export default {
         O: 0,
         X: 0
       }
+    }
+  },
+  computed: {
+    numberOfMatches() {
+      return this.matches + 1;
     }
   },
   methods: {

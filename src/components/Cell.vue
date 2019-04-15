@@ -1,5 +1,5 @@
 <template>
-  <td class="cell" @click="hit">{{ symbol }}</td>
+  <td class="cell" @click="mark">{{ symbol }}</td>
 </template>
 
 <script>
@@ -12,20 +12,27 @@ export default {
     }
   },
   methods: {
-    hit() {
+    mark() {
       if (this.empty) {
         this.symbol = this.$parent.currentPlayer;
         this.empty = false;
-        Event.$emit('hit', this.$attrs.name);
+        Event.$emit('mark', this.$attrs.name);
       }
+    },
+    clearCell() {
+      this.symbol = '';
+      this.empty = true;
+    },
+    blockCell() {
+      this.empty = false;
     }
   },
   created() {
     // Listener to clear the cell when the game restarts
-    Event.$on('clearCell', () => {
-        this.symbol = '';
-        this.empty = true
-    })
+    Event.$on('clearCell', () => this.clearCell());
+    
+    // Listener to block cells when the game is finished
+    Event.$on('finish', () => this.blockCell());
   }
 }
 </script>
